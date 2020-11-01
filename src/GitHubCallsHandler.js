@@ -75,7 +75,7 @@ class GitHubCallsHandler extends React.Component {
     }
 
     handleGetRepos(event) {
-        var url = 'https://api.github.com/orgs/XXX/repos';
+        var url = 'https://api.github.com/orgs/' + this.props.organizationId + '/repos';
         this.fetchPageRepoList(url,0,1) //change the maxPageNumber to 100 if you want to fetch all the repos
     }
 

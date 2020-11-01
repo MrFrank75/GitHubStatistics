@@ -26,7 +26,7 @@ class App extends React.Component {
     }
 
     render() {
-        const organizationId = this.state.organizationId;
+      const organizationId = this.state.organizationId;
 
       return (
           <div className="App">
@@ -39,7 +39,7 @@ class App extends React.Component {
                     </span>
                 </div>
               <div className="body">
-                  <GitHubCallsHandler token={this.state.token} />
+                  <GitHubCallsHandler token={this.state.token} organizationId={this.state.organizationId} />
               </div>
         </div>
       );
