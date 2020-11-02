@@ -32,10 +32,10 @@ class App extends React.Component {
           <div className="App">
               <div className="header">
                   <span className="headerElement">
-                  <GitHubSettings className="headerElement" label="Github Token" setting={this.state.token} onSettingChange={this.handleTokenChange} />
+                  <GitHubSettings className="headerElement" label="Github Token" onSettingChange={this.handleTokenChange} />
                   </span>
                   <span className="headerElement">
-                      <GitHubSettings className="headerElement" label="Organization Id" setting={organizationId} onSettingChange={this.handleOrganizationIdChange} />
+                      <GitHubSettings className="headerElement" label="Organization Id" onSettingChange={this.handleOrganizationIdChange} />
                     </span>
                 </div>
               <div className="body">
