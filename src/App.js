@@ -1,6 +1,7 @@
 import React from 'react';
 import GitHubSettings from './GitHubSettings'
-import GitHubCallsHandler from './GitHubCallsHandler'
+import VisualizationContainer from './VisualizationContainer';
+import GitHubFetchAPI from './GitHubFetchAPI'
 import logo from './logo.svg';
 import './App.css';
 
@@ -10,11 +11,17 @@ class App extends React.Component {
         super(props);
         this.handleTokenChange = this.handleTokenChange.bind(this);
         this.handleOrganizationIdChange = this.handleOrganizationIdChange.bind(this);
+        this.handleGitHubFetching = this.handleGitHubFetching.bind(this);
 
         this.state = {
             token: "",
-            organizationId: ""
+            organizationId: "",
+            repos: new Array()
         }
+    }
+
+    handleGitHubFetching(repoListChanged) {
+        this.setState({ repos: repoListChanged });
     }
 
     handleTokenChange(tokenChanged) {
@@ -26,7 +33,6 @@ class App extends React.Component {
     }
 
     render() {
-      const organizationId = this.state.organizationId;
 
       return (
           <div className="App">
@@ -36,10 +42,13 @@ class App extends React.Component {
                   </span>
                   <span className="headerElement">
                       <GitHubSettings className="headerElement" label="Organization Id" onSettingChange={this.handleOrganizationIdChange} />
-                    </span>
+                  </span>
+                  <span className="headerElement">
+                      <GitHubFetchAPI className="headerElement" onFetchAPIChange={this.handleGitHubFetching} token={this.state.token} organizationId={this.state.organizationId} />
+                  </span>
                 </div>
               <div className="body">
-                  <GitHubCallsHandler token={this.state.token} organizationId={this.state.organizationId} />
+                  <VisualizationContainer repos={this.state.repos} token={this.state.token}  />
               </div>
         </div>
       );

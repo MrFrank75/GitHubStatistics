@@ -71,7 +71,7 @@ class GitHubRepo extends React.Component {
 
     render() {
         return (
-                <div class="gitHubRepoRow" >
+            <div class="gitHubRepoRow" >
                     <div class="gitHubRepoCell">
                         {this.props.name}
                     </div>
@@ -87,7 +87,7 @@ class GitHubRepo extends React.Component {
                         {!this.state.isContributorsListHidden && <GitHubRepoContributorList gitHubContributors={this.state.gitHubContributors} />}
                         </div>
                     </div>
-                </div>           
+            </div>
         );
     }
 }

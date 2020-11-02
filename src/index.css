@@ -14,6 +14,8 @@ code {
 
 .gitHubRepoTable{
     display: table;
+    width: 90%;
+    align-content:center;
 }
 
 .gitHubRepoRow {

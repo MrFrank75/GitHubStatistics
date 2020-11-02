@@ -1,7 +1,7 @@
 import React from 'react';
-import GitHubReposList from './GitHubReposList'
+import './App.css';
 
-class GitHubCallsHandler extends React.Component {
+class GitHubFetchAPI extends React.Component {
     constructor(props) {
         super(props);
         this.handleGetRepos = this.handleGetRepos.bind(this);
@@ -65,6 +65,8 @@ class GitHubCallsHandler extends React.Component {
                 console.log("Data fetched")
                 console.log(data)
                 this.buildRepoList(data);
+                //updating the parent with the changed Repo list
+                this.props.onFetchAPIChange(this.state.repos);
             })
             .then(() => {
                 console.log("Next Page link:" + nextPageLink);
@@ -76,24 +78,18 @@ class GitHubCallsHandler extends React.Component {
 
     handleGetRepos(event) {
         var url = 'https://api.github.com/orgs/' + this.props.organizationId + '/repos';
-        this.fetchPageRepoList(url,0,1) //change the maxPageNumber to 100 if you want to fetch all the repos
+        this.fetchPageRepoList(url, 0, 1) //change the maxPageNumber to 100 if you want to fetch all the repos
+        
     }
-
 
 
     render() {
         return (
             <div>
-                <div>
-                    <button onClick={this.handleGetRepos}>Get Repos</button>
-                    Total repos: {this.state.repos.length}
-                </div>
-                <div>
-                    <GitHubReposList repos={this.state.repos} token={this.props.token}/>
-                </div>
+                <button className="headerElement" onClick={this.handleGetRepos}>Fetch!</button>
             </div>
         );
     }
 }
 
-export default GitHubCallsHandler
+export default GitHubFetchAPI
