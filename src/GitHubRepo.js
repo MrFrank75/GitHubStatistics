@@ -62,7 +62,7 @@ class GitHubRepo extends React.Component {
     }
 
     handleContributorListChange(singleRepoContributorList) {
-        this.props.onGlobalContributorsListChange(singleRepoContributorList)
+        this.props.onSingleRepoContributorListChange(singleRepoContributorList)
     }
 
     componentDidMount() {
