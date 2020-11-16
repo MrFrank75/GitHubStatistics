@@ -10,8 +10,7 @@ class GitHubReposList extends React.Component {
 
     render() {
         return (
-            <div>
-                <div class="gitHubRepoTable">
+                <span class="gitHubRepoTable">
                     {
                         this.props.repos.map((repo) => <GitHubRepo
                             token={this.props.token}
@@ -20,8 +19,7 @@ class GitHubReposList extends React.Component {
                             gitHubRawJson={repo}
                             onSingleRepoContributorListChange={this.props.onSingleRepoContributorListChange} />)
                     }
-                </div>
-            </div>
+                </span>
         );
     }
 }

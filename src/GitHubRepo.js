@@ -71,23 +71,18 @@ class GitHubRepo extends React.Component {
 
     render() {
         return (
-            <div class="gitHubRepoRow" >
-                    <div class="gitHubRepoCell">
+            <span class="gitHubRepoRow" >
+                    <span class="gitHubRepoCell">
                         {this.props.name}
-                    </div>
-                    <div class="gitHubRepoCell">
-                    <div>
-                        <div>Contributors:{this.state.gitHubContributors.length}
-                        </div>
-                    </div>
-                </div>
-                    <div class="gitHubRepoCell">
-                        <div>
+                    </span>
+                    <span class="gitHubRepoCell">
+                        Contributors:{this.state.gitHubContributors.length}
+                    </span>
+                    <span class="gitHubRepoCell">
                         <button onClick={this.toggleHidden.bind(this)} >+</button>
                         {!this.state.isContributorsListHidden && <GitHubRepoContributorList gitHubContributors={this.state.gitHubContributors} />}
-                        </div>
-                    </div>
-            </div>
+                    </span>
+            </span>
         );
     }
 }

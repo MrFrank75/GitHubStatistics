@@ -53,38 +53,30 @@ const useStyles = makeStyles((theme) => ({
 export default function VisualizationContainer(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const [contributors, setContributors] = React.useState([]);
+    const [currentContributorsList, setContributors] = React.useState([]);
    
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const handleSingleRepoContributorListChange = (objGitHubContributorListFromARepo) => {
-        console.log("Calling SingleRepoContributorListChange");
-        var currentContributorsList = contributors;
 
         //checking for each contributor if it is already present before adding it to the pool
         for (var i = 0; i < objGitHubContributorListFromARepo.length; i++) {
             var gitHubContributorFromRepo = objGitHubContributorListFromARepo[i].getGitHubRawData();
-            console.log("Veryfing Contributor Login:" + gitHubContributorFromRepo.login);
-
             var found = false;
-            console.log("Current contributor list contains n.elements:" + currentContributorsList.length);
 
             currentContributorsList.forEach((item, index) => {
                 if (item.getGitHubRawData().login == gitHubContributorFromRepo.login) {
                     found = true;
                     item.globalContributions = parseInt(item.globalContributions, 10) + parseInt(gitHubContributorFromRepo.contributions, 10);
-                    console.log("Updated contributor" + item.getGitHubRawData().login + " with total contribution:" + item.globalContributions);
                 }
             })
 
             if (!found) {
-                currentContributorsList.push(objGitHubContributorListFromARepo[i]);
+                setContributors(contributors => [...contributors, objGitHubContributorListFromARepo[i]]);
             }
         }
-
-        setContributors({ currentContributorsList });
     };
 
     return (
@@ -98,11 +90,10 @@ export default function VisualizationContainer(props) {
             </AppBar>
             <TabPanel value={value} index={0}>
                 <GitHubReposList repos={props.repos} token={props.token} onSingleRepoContributorListChange={handleSingleRepoContributorListChange} />
-                <GitHubContributorsList contributorsList={contributors} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                
-      </TabPanel>
+                <GitHubContributorsList contributorsList={currentContributorsList} />
+            </TabPanel>
             <TabPanel value={value} index={2}>
                 Item Three
       </TabPanel>
