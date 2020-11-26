@@ -95,8 +95,8 @@ export default function VisualizationContainer(props) {
                 <GitHubContributorsList contributorsList={currentContributorsList} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
-      </TabPanel>
+               third one
+            </TabPanel>
         </div>
     );
 }
