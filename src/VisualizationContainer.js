@@ -1,6 +1,7 @@
 import React from 'react';
 import GitHubReposList from './GitHubReposList'
 import GitHubContributorsList from './GitHubContributorsList'
+import EnhancedTable from './EnhancedTable'
 
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -95,7 +96,7 @@ export default function VisualizationContainer(props) {
                 <GitHubContributorsList contributorsList={currentContributorsList} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                <EnhancedTable />
       </TabPanel>
         </div>
     );
