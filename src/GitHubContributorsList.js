@@ -4,10 +4,14 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import EnhancedTableHead from './EnhancedTableHead' 
+import EnhancedTableHead from './EnhancedTableHead';
+import Switch from '@material-ui/core/Switch';
+import EnhancedTableToolbar from './EnhancedTableToolbar'
+import TablePagination from '@material-ui/core/TablePagination';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,8 +48,6 @@ function createSingleGitHubDataRow(contributor) {
     return { login: contributor.getGitHubRawData().login, globalContributions: contributor.globalContributions};
 }
 
-
-
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -77,7 +79,7 @@ export default function GitHubContributorsList(props) {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
+    const [dense, setDense] = React.useState(true);
     const [rowsPerPage, setRowsPerPage] = React.useState(25);
     const rows = createGitHubData(props.contributorsList);
 
@@ -104,62 +106,60 @@ export default function GitHubContributorsList(props) {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
+        <div className={classes.root}>
+            <Paper className={classes.paper}>
+                <EnhancedTableToolbar />
+                <TableContainer>
+                    <Table
+                        className={classes.table}
+                        aria-labelledby="tableTitle"
+                        size={dense ? 'small' : 'medium'}
+                        aria-label="enhanced table"
+                    >
+                        <EnhancedTableHead
+                            classes={classes}
+                            order={order}
+                            orderBy={orderBy}
+                            onRequestSort={handleRequestSort}
+                            rowCount={rows.length}
+                        />
+                        <TableBody>
+                            {stableSort(rows, getComparator(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row, index) => {
+                                    const labelId = `enhanced-table-checkbox-${index}`;
 
-            <TableContainer>
-                <Table
-                    className={classes.table}
-                    aria-labelledby="tableTitle"
-                    size={dense ? 'small' : 'medium'}
-                    aria-label="enhanced table"
-                >
-                    <EnhancedTableHead
-                        classes={classes}
-                        order={order}
-                        orderBy={orderBy}
-                        onRequestSort={handleRequestSort}
-                        rowCount={rows.length}
-                    />
-                    <TableBody>
-                        {stableSort(rows, getComparator(order, orderBy))
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => {
-                                const labelId = `enhanced-table-checkbox-${index}`;
-
-                                return (
-                                    <TableRow>
-                                        <TableCell component="th" id={labelId} scope="row" padding="none">
-                                            {row.login}
-                                        </TableCell>
-                                        <TableCell align="right">{row.globalContributions}</TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        {emptyRows > 0 && (
-                            <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                                <TableCell colSpan={2} />
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-        //<TableContainer component={Paper}>
-        //    <Table className={classes.table} size="small"  aria-label="simple table">
-        //        <TableHead>
-        //            <TableRow>
-        //                <TableCell>Login</TableCell>
-        //                <TableCell align="right">Contributions</TableCell>
-        //            </TableRow>
-        //        </TableHead>
-        //        <TableBody>
-        //            {rows.map((row) => (
-        //                <TableRow key={row.name}>
-        //                    <TableCell component="th" scope="row">{row.login}</TableCell>
-        //                    <TableCell align="right">{row.globalContributions}</TableCell>
-        //                </TableRow>
-        //            ))}
-        //        </TableBody>
-        //    </Table>
-        //</TableContainer>
+                                    return (
+                                        <TableRow>
+                                            <TableCell component="th" id={labelId} scope="row" padding="none">
+                                                {row.login}
+                                            </TableCell>
+                                            <TableCell align="right">{row.globalContributions}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            {emptyRows > 0 && (
+                                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                                    <TableCell colSpan={2} />
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+            </Paper>
+            <FormControlLabel
+                control={<Switch checked={dense} onChange={handleChangeDense} />}
+                label="Dense padding"
+            />
+        </div>
     );
 }
