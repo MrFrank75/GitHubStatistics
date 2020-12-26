@@ -12,6 +12,7 @@ import EnhancedTableToolbar from './EnhancedTableToolbar'
 import TablePagination from '@material-ui/core/TablePagination';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import GitHubRepoStats from './GitHubRepoStats';
+import GitHubRepoStatsCalculator from './GitHubRepoStatsCalculator';
 
 
 function createGitHubData(reposList) {
@@ -127,6 +128,7 @@ export default function GitHubReposList(props) {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     const labelId = `enhanced-table-checkbox-${index}`;
+                                    var totalContributions = GitHubRepoStatsCalculator(props, row);
 
                                     return (
                                         <TableRow>
@@ -134,6 +136,7 @@ export default function GitHubReposList(props) {
                                                 {row.name}
                                             </TableCell>
                                             <TableCell align="right">
+                                                {totalContributions}
                                                 <GitHubRepoStats
                                                     token={props.token}
                                                     name={row.name}
