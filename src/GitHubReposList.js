@@ -11,6 +11,7 @@ import Switch from '@material-ui/core/Switch';
 import EnhancedTableToolbar from './EnhancedTableToolbar'
 import TablePagination from '@material-ui/core/TablePagination';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import GitHubRepoStats from './GitHubRepoStats';
 
 
 function createGitHubData(reposList) {
@@ -20,7 +21,7 @@ function createGitHubData(reposList) {
 }
 
 function createSingleGitHubDataRow(repo) {
-    return { name: repo.name, id: repo.id, rawJson: repo};
+    return { name: repo.name, id: repo.id, repoRawJson: repo};
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -132,7 +133,15 @@ export default function GitHubReposList(props) {
                                             <TableCell component="th" id={labelId} scope="row" padding="none">
                                                 {row.name}
                                             </TableCell>
-                                            <TableCell align="right">Total Contributions to be implemented</TableCell>
+                                            <TableCell align="right">
+                                                <GitHubRepoStats
+                                                    token={props.token}
+                                                    name={row.name}
+                                                    key={row.id}
+                                                    gitHubRawJson={row.repoRawJson}
+                                                    onSingleRepoContributorListChange={props.onSingleRepoContributorListChange}
+                                                />
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}
